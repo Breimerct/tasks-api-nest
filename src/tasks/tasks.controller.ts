@@ -13,6 +13,7 @@ import {
 import { TasksService } from './tasks.service';
 import { TaskDTO } from './DTO/taskDTO';
 import { ITask } from './interfaces/ITask';
+import { ValidateIdPipe } from './pipes/validate-id.pipe';
 
 @Controller('tasks')
 export class TasksController {
@@ -34,7 +35,9 @@ export class TasksController {
   }
 
   @Get(':taskId')
-  async getTask(@Param('taskId') taskId: string): Promise<ITask> {
+  async getTask(
+    @Param('taskId', ValidateIdPipe) taskId: string,
+  ): Promise<ITask> {
     const task = await this.taskService.getTask(taskId);
     if (!task) throw new NotFoundException('this task does not exist');
     return task;
@@ -42,7 +45,7 @@ export class TasksController {
 
   @Put('/update/:taskId')
   async updateTask(
-    @Param('taskId') taskId,
+    @Param('taskId', ValidateIdPipe) taskId,
     @Body() task: TaskDTO,
   ): Promise<ITask> {
     const _task = await this.taskService.updateTask(taskId, task);
@@ -51,7 +54,9 @@ export class TasksController {
   }
 
   @Delete('/delete/:taskId')
-  async deleteTask(@Param('taskId') taskId: string): Promise<ITask> {
+  async deleteTask(
+    @Param('taskId', ValidateIdPipe) taskId: string,
+  ): Promise<ITask> {
     const task = await this.taskService.deleteTask(taskId);
     if (!task) throw new NotFoundException('this task does not exist');
     return task;
