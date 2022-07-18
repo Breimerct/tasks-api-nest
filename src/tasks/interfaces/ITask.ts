@@ -1,8 +1,8 @@
-import { Document } from 'mongoose'
+import { Document } from 'mongoose';
 
-export interface ITask extends Document{
-    _id?: string
-    title: string
-    description: string
-    done: boolean
+export interface ITask extends Document {
+  _id?: string;
+  title: string;
+  description: string;
+  done: boolean;
 }
